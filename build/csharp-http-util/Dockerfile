@@ -1,5 +1,9 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2.203-stretch-arm32v7 as builder
 
+MAINTAINER S Taylor
+
+COPY qemu-arm-static /usr/bin
+
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 
 # Optimize for Docker builder caching by adding projects first.
