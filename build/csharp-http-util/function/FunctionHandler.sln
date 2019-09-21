@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionHandler", "FunctionHandler.csproj", "{1C1EAA95-A176-4E35-9DBE-44A2D09D7232}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C1EAA95-A176-4E35-9DBE-44A2D09D7232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1EAA95-A176-4E35-9DBE-44A2D09D7232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1EAA95-A176-4E35-9DBE-44A2D09D7232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1EAA95-A176-4E35-9DBE-44A2D09D7232}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
