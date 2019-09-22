@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,11 +26,57 @@ namespace Function
         private async Task<QueryResult> GetStatusForUrl(string url)
         {
             var result = new QueryResult();
+            //result.StatusCodes = new List<int>();
 
-            var httpResult = await _httpClient.GetAsync(url);
+            string currentUrl = string.Empty;
+            string redirectUrl;
 
-            result.FirstStatus = httpResult.StatusCode;
+            for (int i = 0; i < 10; i++)
+            {
+                if (i == 0)
+                {
+                    currentUrl = url;
+                }
 
+                result.Hops = i;
+
+                var httpReq = new HttpRequestMessage(HttpMethod.Head, currentUrl);
+
+                var httpResp = await _httpClient.SendAsync(httpReq);
+                
+                // Always set last status
+                result.FinalStatus = httpResp.StatusCode;
+
+                // Record first status
+                if (i == 0)
+                    result.FirstStatus = httpResp.StatusCode;
+
+                if (httpResp.StatusCode == HttpStatusCode.OK)
+                {
+                    break;
+                }
+
+                redirectUrl = httpResp.Headers.Location.ToString();
+
+                if ((int)httpResp.StatusCode >= 300 &&
+                    (int)httpResp.StatusCode <= 399 &&
+                    !string.IsNullOrEmpty(redirectUrl))
+                {
+                    currentUrl = redirectUrl;
+                    continue;
+                }
+                else
+                {
+                    // 4xx or 5xx
+                    break;
+                }
+
+            }
+
+            //var httpResult = await _httpClient.GetAsync(url);
+            //result.FirstStatus = httpResult.StatusCode;
+
+            /*
             if (httpResult.Content != null)
             {
                 result.ContentLength = httpResult.Content.ToString().Length;
@@ -38,6 +85,7 @@ namespace Function
             {
                 result.ContentLength = -1;
             }
+            */
 
             return result;
         }
@@ -51,8 +99,9 @@ namespace Function
     internal class QueryResult
     {
         public HttpStatusCode FirstStatus { get; set; }
-        public int FinalStatus { get; set; }
-        public int ContentLength { get; set; }
+        public HttpStatusCode FinalStatus { get; set; }
+        public List<int> StatusCodes { get; set; }
+        //public int ContentLength { get; set; }
         public int Hops { get; set; }
     }
 }
