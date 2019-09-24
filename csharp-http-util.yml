@@ -6,4 +6,4 @@ functions:
   csharp-http-util:
     lang: csharp-kestrel-armhf
     handler: ./csharp-http-util
-    image: stewartntaylor/csharp-http-util:latest-armhf
+    image: stewarttaylor/csharp-http-util:latest-armhf
